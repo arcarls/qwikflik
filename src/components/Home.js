@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { 
 POPULAR_BASE_URL,  
-API_URL, 
-API_KEY,
-API_BASE_URL,
 POSTER_SIZE,
 BACKDROP_SIZE,
 IMAGE_BASE_URL,
@@ -23,7 +20,7 @@ import { useHomeFetch } from './hooks/useHomeFetch';
 
 //this is our fall back for when no image is provided by the API
 import NoImage from './images/no_image.jpg';
-import { findRenderedDOMComponentWithTag } from 'react-dom/test-utils';
+
 
 
 //When trying to de-structure state below, everything blows up...
@@ -32,7 +29,8 @@ const Home = () => {
   const [searchTerm, setSearchTerm] = useState('');
   //this empty string for useState is going to be used to check if we are in a search or not
  console.log(state);
-const searchMovies = search => {
+
+ const searchMovies = search => {
   const endpoint = search ? SEARCH_BASE_URL + search : POPULAR_BASE_URL;
   
   setSearchTerm(search);
@@ -40,17 +38,17 @@ const searchMovies = search => {
   
 }  
 
-//  const loadMoreMovies = () => {
-//    const searchEndpoint = `${API_URL}search/movie?api_key=${API_KEY}&query=${searchTerm}&page=${currentPage +1}`;
-//    const popularEndpoint = `${API_URL}movie/popular?api_key=${API_KEY}&page=${currentPage + 1}`;
-//    
-//    const endpoint = searchTerm ? searchEndpoint : popularEndpoint;
+  const loadMoreMovies = () => {
+    const searchEndpoint = `${SEARCH_BASE_URL}${searchTerm}&page=${state.currentPage +1}`;
+    const popularEndpoint = `${POPULAR_BASE_URL}&page=${state.currentPage + 1}`;
     
-//    fetchMovies(endpoint)
-//  }
+    const endpoint = searchTerm ? searchEndpoint : popularEndpoint;
+    
+    fetchMovies(endpoint)
+  }
 
-  if (error) return <div>What did you do???</div>
-  if (!state.movies[0]) return <Spinner />
+  if (error) return <div>What did you do???</div>;
+  if (!state.movies[0]) return <Spinner />;
 
 return (
     <>
@@ -60,7 +58,7 @@ return (
       text={state.HeroImage.overview}
   
       />
-    <SearchBar />
+    <SearchBar callback={searchMovies} />
     <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
      {state.movies.map(movie => (
        <MovieThumb
@@ -76,15 +74,14 @@ return (
         >
           
         </MovieThumb>
-     ))} 
+     ))}
     </Grid> 
-    <MovieThumb />
-    <Spinner />
-    <LoadMoreBtn />
+    {loading && <Spinner />}
+    <LoadMoreBtn callback={loadMoreMovies} text= "Load More" />
     </>
-    )
-}
-
+    ) 
+  }
+// the above {loading && <Spinner />} is a short circuit that says if loading is true, load our spinner component 
 
 
 export default Home;
