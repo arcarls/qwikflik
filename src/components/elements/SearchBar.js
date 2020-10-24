@@ -13,15 +13,14 @@ const SearchBar = ({ callback }) => {
 //the input field will then get its value from the state
 //state value and input value will always be in sync
      const doSearch = event => {
-        console.log(event.target.value); 
-        const { value } = event.target;
+         const { value } = event.target;
          setState(value);
 
          //if you have a value you want to mutate and you want to keep between renders you use a ref
         clearTimeout(timeOut.current);
         setState(value);
 
-        timeOut.current =setTimeout(() =>{
+        timeOut.current = setTimeout(() =>{
         callback(value);
         }, 500); 
     }

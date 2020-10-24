@@ -20,7 +20,7 @@ import { useHomeFetch } from './hooks/useHomeFetch';
 
 //this is our fall back for when no image is provided by the API
 import NoImage from './images/no_image.jpg';
-
+;
 
 
 //When trying to de-structure state below, everything blows up...
@@ -39,7 +39,7 @@ const Home = () => {
 }  
 
   const loadMoreMovies = () => {
-    const searchEndpoint = `${SEARCH_BASE_URL}${searchTerm}&page=${state.currentPage +1}`;
+    const searchEndpoint = `${SEARCH_BASE_URL}${searchTerm}&page=${state.currentPage + 1}`;
     const popularEndpoint = `${POPULAR_BASE_URL}&page=${state.currentPage + 1}`;
     
     const endpoint = searchTerm ? searchEndpoint : popularEndpoint;
@@ -47,18 +47,19 @@ const Home = () => {
     fetchMovies(endpoint)
   }
 
-  if (error) return <div>What did you do???</div>;
-  if (!state.movies[0]) return <Spinner />;
+  if (error) return <div>What did you do???</div>
+  if (!state.movies[0]) return <Spinner />
 
-return (
+return ( // the !searchTerm && short circuit will get rid of "HeroImage" when search results are loaded
     <>
+    {!searchTerm && (
     <HeroImage 
       image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.HeroImage.backdrop_path}`}
       title={state.HeroImage.original_title}
       text={state.HeroImage.overview}
   
-      />
-    <SearchBar callback={searchMovies} />
+      /> )}
+    <SearchBar callback={searchMovies}/>
     <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
      {state.movies.map(movie => (
        <MovieThumb
@@ -74,14 +75,14 @@ return (
         >
           
         </MovieThumb>
-     ))}
+     ))} 
     </Grid> 
-    {loading && <Spinner />}
-    <LoadMoreBtn callback={loadMoreMovies} text= "Load More" />
+    {loading && <Spinner />} 
+    <LoadMoreBtn text="Load More" callback={loadMoreMovies}/>
     </>
-    ) 
-  }
-// the above {loading && <Spinner />} is a short circuit that says if loading is true, load our spinner component 
+    ) // loading && above is a short circuit to run spinner if 
+}
+
 
 
 export default Home;
