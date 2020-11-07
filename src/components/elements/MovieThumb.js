@@ -9,7 +9,7 @@ const MovieThumb = ({ image, movieId, clickable }) => (
           <img className="clickable" src={image} alt="moviethumb" />
         </Link>
       ) : (
-          <img src={image} alot="moviethumb" />  
+          <img src={image} alt="moviethumb" />  
       )}
   </StyledMovieThumb>
 //if 'clickable is true, run this

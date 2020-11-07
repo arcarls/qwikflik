@@ -7,8 +7,7 @@ export const useHomeFetch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);  
 
-  // console.log(state);
-
+  
   //this async will allow the code to wait until it pulls data from the api before continuing
   const fetchMovies = async endpoint => {
     setError(false);

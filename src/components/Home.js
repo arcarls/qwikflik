@@ -28,7 +28,7 @@ const Home = () => {
   const [{ state, loading, error }, fetchMovies] = useHomeFetch();
   const [searchTerm, setSearchTerm] = useState('');
   //this empty string for useState is going to be used to check if we are in a search or not
- console.log(state);
+ 
 
  const searchMovies = search => {
   const endpoint = search ? SEARCH_BASE_URL + search : POPULAR_BASE_URL;
